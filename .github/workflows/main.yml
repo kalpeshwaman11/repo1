@@ -23,10 +23,10 @@ jobs:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       run: |
-        mkdir -p ~/.databricks
-        echo "[DEFAULT]" > ~/.databricks/config
-        echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
-        echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
+        cat <<EOF | databricks configure --token
+        $DATABRICKS_HOST
+        $DATABRICKS_TOKEN
+        EOF
 
     - name: Validate Databricks CLI Configuration
       run: databricks workspace list
