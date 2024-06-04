@@ -61,4 +61,4 @@ jobs:
       run: databricks workspace list
 
     - name: Sync to Databricks Production
-      run: databricks workspace import_dir --overwrite prod_release /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release
+      run: databricks workspace import_dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release
