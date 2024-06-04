@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  deploy:
+  deploy_dev:
     runs-on: ubuntu-latest
 
     steps:
@@ -36,28 +36,29 @@ jobs:
 
   deploy_prod:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: deploy_dev
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Install Databricks CLI and dependencies
-        run: |
-          pip install databricks-cli
-          pip install urllib3==1.26.6 chardet==3.0.4
+    - name: Install Databricks CLI and dependencies
+      run: |
+        pip install databricks-cli
+        pip install urllib3==1.26.6 chardet==3.0.4
 
-      - name: Configure Databricks CLI for Production
-        env:
-          DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
-        run: |
-          mkdir -p ~/.databricks
-          echo "[DEFAULT]" > ~/.databricks/config
-          echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
-          echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
+    - name: Configure Databricks CLI for Production
+      env:
+        DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
+      run: |
+        mkdir -p ~/.databricks
+        echo "[DEFAULT]" > ~/.databricks/config
+        echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
+        echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
 
-      - name: Validate Databricks CLI Configuration for Production
-        run: databricks workspace list
+    - name: Validate Databricks CLI Configuration for Production
+      run: databricks workspace list
 
-      - name: Sync to Databricks Production
-        run: databricks workspace import_dir --overwrite prod_release /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release
+    - name: Sync to Databricks Production
+      run: databricks workspace import_dir --overwrite prod_release /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release
