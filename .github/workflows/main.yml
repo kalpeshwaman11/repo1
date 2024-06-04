@@ -29,4 +29,4 @@ jobs:
 
     - name: Sync to Databricks
       run: |
-        databricks workspace import_dir --overwrite / /Workspace/Users/kalpesh.azure.subscription@gmail.com/release
+        databricks workspace import_dir --overwrite /release /Workspace/Users/kalpesh.azure.subscription@gmail.com/release
