@@ -1,4 +1,4 @@
-  name: Deploy to Databricks
+name: Deploy to Databricks
 
 on:
   push:
