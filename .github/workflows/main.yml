@@ -28,6 +28,8 @@ jobs:
         echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
         echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
 
+    - name: Validate Databricks CLI Configuration
+      run: databricks workspace list
+
     - name: Sync to Databricks
-      run: |
-        databricks workspace import_dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/release
+      run: databricks workspace import_dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/release
