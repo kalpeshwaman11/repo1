@@ -27,6 +27,7 @@ jobs:
         echo "[DEFAULT]" > ~/.databricks/config
         echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
         echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
+        cat ~/.databricks/config
 
     - name: Validate Databricks CLI Configuration for Development
       run: databricks workspace list
@@ -56,6 +57,7 @@ jobs:
         echo "[DEFAULT]" > ~/.databricks/config
         echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
         echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
+        cat ~/.databricks/config
 
     - name: Validate Databricks CLI Configuration for Production
       run: databricks workspace list
