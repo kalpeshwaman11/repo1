@@ -17,3 +17,7 @@
 # MAGIC (3, 'Charlie', 35, 'Chicago'),
 # MAGIC (4, 'Diana', 28, 'San Francisco');
 # MAGIC
+
+# COMMAND ----------
+
+print("hello world")
