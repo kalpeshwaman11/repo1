@@ -69,10 +69,13 @@ jobs:
         DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
       run: |
         # List tables in the production release directory
-        TABLES=$(databricks workspace ls /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release | awk '{print $1}')
+        TABLES=$(databricks workspace list /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release | awk '{print $1}')
         
         # Loop through each table and rename it with prod_ prefix
         for TABLE in $TABLES; do
           PROD_TABLE_NAME=prod_${TABLE##*/}
-          databricks workspace mv /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$TABLE /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$PROD_TABLE_NAME
+          # Copy table to new name
+          databricks workspace cp /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$TABLE /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$PROD_TABLE_NAME
+          # Remove the old table
+          databricks workspace rm /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$TABLE
         done
