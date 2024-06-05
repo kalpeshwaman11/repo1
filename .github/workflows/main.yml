@@ -13,26 +13,26 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install Databricks CLI
-      run: pip install databricks-cli
+    - name: Install Databricks CLI and dependencies
+      run: |
+        pip install databricks-cli
+        pip install urllib3==1.26.6 chardet==3.0.4
 
     - name: Configure Databricks CLI
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       run: |
-        mkdir -p ~/.databricks
-        cat <<EOF > ~/.databricks/config
-        [DEFAULT]
-        host = $DATABRICKS_HOST
-        token = $DATABRICKS_TOKEN
+        cat <<EOF | databricks configure --token
+        $DATABRICKS_HOST
+        $DATABRICKS_TOKEN
         EOF
 
     - name: Validate Databricks CLI Configuration
       run: databricks workspace list
 
     - name: Sync to Databricks
-      run: databricks workspace import-dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/release
+      run: databricks workspace import_dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/release
 
   deploy_prod:
     runs-on: ubuntu-latest
@@ -42,26 +42,26 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install Databricks CLI
-      run: pip install databricks-cli
+    - name: Install Databricks CLI and dependencies
+      run: |
+        pip install databricks-cli
+        pip install urllib3==1.26.6 chardet==3.0.4
 
     - name: Configure Databricks CLI
       env:
         DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
       run: |
-        mkdir -p ~/.databricks
-        cat <<EOF > ~/.databricks/config
-        [DEFAULT]
-        host = $DATABRICKS_HOST
-        token = $DATABRICKS_TOKEN
+        cat <<EOF | databricks configure --token
+        $DATABRICKS_HOST
+        $DATABRICKS_TOKEN
         EOF
 
     - name: Validate Databricks CLI Configuration for Production
       run: databricks workspace list
 
     - name: Sync to Databricks Production
-      run: databricks workspace import-dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release
+      run: databricks workspace import_dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release
 
     - name: Rename tables in production
       env:
@@ -74,9 +74,5 @@ jobs:
         # Loop through each table and rename it with prod_ prefix
         for TABLE in $TABLES; do
           PROD_TABLE_NAME=prod_${TABLE##*/}
-          # Copy table to new name
-          databricks workspace export /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$TABLE /tmp/$TABLE
-          databricks workspace import /tmp/$TABLE /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$PROD_TABLE_NAME --overwrite
-          # Remove the old table
-          databricks workspace delete /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$TABLE
+          databricks fs mv /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$TABLE /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$PROD_TABLE_NAME
         done
