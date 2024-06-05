@@ -75,5 +75,5 @@ jobs:
         # Loop through each table and rename it with prod_ prefix
         for TABLE in $TABLES; do
           PROD_TABLE_NAME=prod_${TABLE##*/}
-          databricks fs mv /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$TABLE /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$PROD_TABLE_NAME
+          databricks workspace mv /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$TABLE /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$PROD_TABLE_NAME
         done
