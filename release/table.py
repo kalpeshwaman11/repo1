@@ -11,7 +11,7 @@
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC INSERT INTO hive_metastore.default.sample_table VALUES
+# MAGIC INSERT INTO sample_table VALUES
 # MAGIC (1, 'Alice', 30, 'New York'),
 # MAGIC (2, 'Bob', 25, 'Los Angeles'),
 # MAGIC (3, 'Charlie', 35, 'Chicago'),
