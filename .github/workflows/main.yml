@@ -25,25 +25,15 @@ jobs:
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       run: |
         mkdir -p ~/.databricks
-        cat <<EOF > ~/.databricks/config
-[DEFAULT]
-host = $DATABRICKS_HOST
-token = $DATABRICKS_TOKEN
-EOF
+        echo "[DEFAULT]" > ~/.databricks/config
+        echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
+        echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
 
     - name: Validate Databricks CLI Configuration
-      env:
-        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      run: |
-        databricks workspace ls /
+      run: databricks workspace ls /
 
     - name: Sync to Databricks
-      env:
-        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      run: |
-        databricks workspace import-dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/release
+      run: databricks workspace import-dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/release
 
   deploy_prod:
     runs-on: ubuntu-latest
@@ -65,30 +55,17 @@ EOF
         DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
       run: |
         mkdir -p ~/.databricks
-        cat <<EOF > ~/.databricks/config
-[DEFAULT]
-host = $DATABRICKS_HOST
-token = $DATABRICKS_TOKEN
-EOF
+        echo "[DEFAULT]" > ~/.databricks/config
+        echo "host = $DATABRICKS_HOST" >> ~/.databricks/config
+        echo "token = $DATABRICKS_TOKEN" >> ~/.databricks/config
 
     - name: Validate Databricks CLI Configuration for Production
-      env:
-        DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
-      run: |
-        databricks workspace ls /
+      run: databricks workspace ls /
 
     - name: Sync to Databricks Production
-      env:
-        DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
-      run: |
-        databricks workspace import-dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release
+      run: databricks workspace import-dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release
 
     - name: Rename tables in production
-      env:
-        DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
       run: |
         # List tables in the production release directory
         TABLES=$(databricks workspace ls /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release --output JSON | jq -r '.objects[].path')
