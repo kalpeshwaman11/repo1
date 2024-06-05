@@ -49,12 +49,12 @@ jobs:
 
     - name: Configure Databricks CLI
       env:
-        PROD_DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
-        PROD_DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
+        DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
       run: |
         cat <<EOF | databricks configure --token
-        $PROD_DATABRICKS_HOST
-        $PROD_DATABRICKS_TOKEN
+        $DATABRICKS_HOST
+        $DATABRICKS_TOKEN
         EOF
 
     - name: Validate Databricks CLI Configuration for Production
@@ -62,3 +62,17 @@ jobs:
 
     - name: Sync to Databricks Production
       run: databricks workspace import_dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release
+
+    - name: Rename tables in production
+      env:
+        DATABRICKS_HOST: ${{ secrets.PROD_DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: ${{ secrets.PROD_DATABRICKS_TOKEN }}
+      run: |
+        # List tables in the production release directory
+        TABLES=$(databricks workspace ls /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release | awk '{print $1}')
+        
+        # Loop through each table and rename it with prod_ prefix
+        for TABLE in $TABLES; do
+          PROD_TABLE_NAME=prod_${TABLE##*/}
+          databricks workspace mv /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$TABLE /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$PROD_TABLE_NAME
+        done
