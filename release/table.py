@@ -16,7 +16,7 @@ table_prefex = os.getenv("TABLE_PREFEX")
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC INSERT INTO sample_table VALUES
+# MAGIC INSERT INTO {table_prefex}sample_table VALUES
 # MAGIC (1, 'Alice', 30, 'New York'),
 # MAGIC (2, 'Bob', 25, 'Los Angeles'),
 # MAGIC (3, 'Charlie', 35, 'Chicago'),
