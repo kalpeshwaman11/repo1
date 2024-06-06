@@ -1,6 +1,11 @@
 # Databricks notebook source
+import os 
+table_prefex = os.getenv("TABLE_PREFEX")
+
+# COMMAND ----------
+
 # MAGIC %sql
-# MAGIC CREATE TABLE sample_table (
+# MAGIC CREATE TABLE {table_prefex}sample_table (
 # MAGIC     id INT PRIMARY KEY,
 # MAGIC     name VARCHAR(50),
 # MAGIC     age INT,
