@@ -71,16 +71,17 @@ jobs:
         
         # Loop through each table and rename it with prod_ prefix
         for TABLE in $TABLES; do
-          PROD_TABLE_NAME=prod_${TABLE##*/}
-          TEMP_DIR="/tmp/databricks_temp"
-          mkdir -p $TEMP_DIR
+          echo "TABLE"
+
+          # TEMP_DIR="/tmp/databricks_temp"
+          # mkdir -p $TEMP_DIR
           
-          # Export table to a temporary location
-          databricks workspace export --format DBC $TABLE $TEMP_DIR/${TABLE##*/}.dbc
+          # # Export table to a temporary location
+          # databricks workspace export --format DBC $TABLE $TEMP_DIR/${TABLE##*/}.dbc
           
-          # Import table with new name
-          databricks workspace import --format DBC --overwrite $TEMP_DIR/${TABLE##*/}.dbc /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$PROD_TABLE_NAME
+          # # Import table with new name
+          # databricks workspace import --format DBC --overwrite $TEMP_DIR/${TABLE##*/}.dbc /Workspace/Users/kalpesh.azure.subscription@gmail.com/prod_release/$PROD_TABLE_NAME
           
-          # Remove the old table
-          databricks workspace delete $TABLE
+          # # Remove the old table
+          # databricks workspace delete $TABLE
         done
