@@ -1,32 +1,14 @@
 # Databricks notebook source
-import os 
-table_prefex = os.getenv("TABLE_PREFEX")
+container_name = "{CONTAINER_NAME}"
+storage_account_name = "{STORAGE_ACCOUNT_NAME}"
+
+dbutils.fs.mount(
+    source = f"wasbs://{container_name}@{storage_account_name}.blob.core.windows.net",
+    mount_point = "/mnt/data"
+)
+
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC CREATE TABLE {table_prefex}sample_table (
-# MAGIC     id INT PRIMARY KEY,
-# MAGIC     name VARCHAR(50),
-# MAGIC     age INT,
-# MAGIC     city VARCHAR(50)
-# MAGIC );
-# MAGIC
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC INSERT INTO {table_prefex}sample_table VALUES
-# MAGIC (1, 'Alice', 30, 'New York'),
-# MAGIC (2, 'Bob', 25, 'Los Angeles'),
-# MAGIC (3, 'Charlie', 35, 'Chicago'),
-# MAGIC (4, 'Diana', 28, 'San Francisco');
-# MAGIC
-
-# COMMAND ----------
-
-print("hello world")
-
-# COMMAND ----------
-
-print("abhay")
+print(storage_account_name)
+print(container_name)
