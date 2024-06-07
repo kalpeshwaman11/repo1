@@ -79,8 +79,8 @@ jobs:
 
     - name: Replace tokens in notebooks
       run: |
-          find release -type f -name "*.py" -exec sed -i 's/{CONTAINER_NAME}/'"$CONTAINER_NAME"'/g' {} +
-          find release -type f -name "*.py" -exec sed -i 's/{STORAGE_ACCOUNT_NAME}/'"$STORAGE_ACCOUNT_NAME"'/g' {} +
+          find prod_release -type f -name "*.py" -exec sed -i 's/{CONTAINER_NAME}/'"$CONTAINER_NAME"'/g' {} +
+          find prod_release -type f -name "*.py" -exec sed -i 's/{STORAGE_ACCOUNT_NAME}/'"$STORAGE_ACCOUNT_NAME"'/g' {} +
 
 
     - name: Sync to Databricks Production 
