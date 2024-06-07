@@ -1,6 +1,6 @@
 # Databricks notebook source
-container_name = "{CONTAINER_NAME}"
-storage_account_name = "{STORAGE_ACCOUNT_NAME}"
+container_name = {CONTAINER_NAME}
+storage_account_name = {STORAGE_ACCOUNT_NAME}
 
 dbutils.fs.mount(
     source = f"wasbs://{container_name}@{storage_account_name}.blob.core.windows.net",
