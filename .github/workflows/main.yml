@@ -39,8 +39,9 @@ jobs:
 
     - name: Replace tokens in notebooks
       run: |
-         find release -type f -name "*.py" -exec sed -i 's/{CONTAINER_NAME}/'"$CONTAINER_NAME"'/g' {} +
-         find release -type f -name "*.py" -exec sed -i 's/{STORAGE_ACCOUNT_NAME}/'"$STORAGE_ACCOUNT_NAME"'/g' {} +
+          sed -i 's/{CONTAINER_NAME}/'"$CONTAINER_NAME"'/g' release/**/*.py
+          sed -i 's/{STORAGE_ACCOUNT_NAME}/'"$STORAGE_ACCOUNT_NAME"'/g' release/**/*.py
+
 
     - name: Sync to Databricks 
       run: databricks workspace import_dir --overwrite release /Workspace/Users/kalpesh.azure.subscription@gmail.com/release 
@@ -79,8 +80,9 @@ jobs:
 
     - name: Replace tokens in notebooks
       run: |
-          find prod_release -type f -name "*.py" -exec sed -i 's/{CONTAINER_NAME}/'"$CONTAINER_NAME"'/g' {} +
-          find prod_release -type f -name "*.py" -exec sed -i 's/{STORAGE_ACCOUNT_NAME}/'"$STORAGE_ACCOUNT_NAME"'/g' {} +
+          sed -i 's/{CONTAINER_NAME}/'"$CONTAINER_NAME"'/g' release/**/*.py
+          sed -i 's/{STORAGE_ACCOUNT_NAME}/'"$STORAGE_ACCOUNT_NAME"'/g' release/**/*.py
+
 
 
     - name: Sync to Databricks Production 
