@@ -10,5 +10,4 @@ dbutils.fs.mount(
 
 # COMMAND ----------
 
-print(storage_account_name)
-print(container_name)
+print("will it work again")
