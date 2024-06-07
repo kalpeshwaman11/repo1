@@ -1,0 +1,2 @@
+CONTAINER_NAME: "dev_container"
+STORAGE_ACCOUNT_NAME: "dev_storage_account"
