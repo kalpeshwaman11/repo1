@@ -1,0 +1,2 @@
+CONTAINER_NAME: "prod_container"
+STORAGE_ACCOUNT_NAME: "pro_storage_account"
