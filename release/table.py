@@ -7,11 +7,3 @@ dbutils.fs.mount(
     mount_point = "/mnt/data"
 )
 
-
-# COMMAND ----------
-
-print("will it work?")
-
-# COMMAND ----------
-
-print("will it work again?")
